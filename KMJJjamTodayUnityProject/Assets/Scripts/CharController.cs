@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+[RequireComponent(typeof(Rigidbody2D))]
 
 public class CharController : MonoBehaviour {
 
@@ -13,7 +14,7 @@ public class CharController : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
         rb.AddRelativeForce(new Vector2(Input.GetAxis("Horizontal") * maxSpeed, Input.GetAxis("Vertical") * maxSpeed));
 	}
 }
