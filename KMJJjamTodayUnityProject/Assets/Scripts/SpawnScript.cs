@@ -13,15 +13,17 @@ public class SpawnScript : MonoBehaviour {
     public float curve = 0.1f;
     public float curvature = 0.5f;
     public float scale = 0.1f;
-    float track = 0;
-    float enemyNum;
+
+    public float track = 0;
+    public float desEnemyCnt;
+   // float enemyNum;
     bool left = true;
     float rand;
-    static SpawnScript spawnthingy;
+    public static SpawnScript spawnthingy;
 
 	// Use this for initializatio
 	void Start () {
-
+        spawnthingy = this;
         //enemyNum = Random.Range(enemyMin, enemyMax);
 	
 	}
@@ -33,13 +35,13 @@ public class SpawnScript : MonoBehaviour {
 
         if (left)
         {
-            Pos.x = ((xoffset + width * Random.value) * Screen.width);
+            Pos.x = (xoffset + width * Random.value)* Screen.width;
             left = false;
         }
 
         else
         {
-            Pos.x = (Screen.width - (xoffset + width * Random.value));
+            Pos.x = (1.0f - (xoffset + width * Random.value))* Screen.width;
             left = true;
         }
 
@@ -47,11 +49,11 @@ public class SpawnScript : MonoBehaviour {
 
         if(rand > 0.5)
         {
-            Pos.y = ((yoffset + height * Random.value) * Screen.height);
+            Pos.y =  Screen.height +yoffset; //((yoffset + height * Random.value) * Screen.height);
         }
         else
         {
-            Pos.y = (Screen.height - (yoffset + height * Random.value));
+            Pos.y = -yoffset;//(Screen.height - (yoffset + height * Random.value));
         }
 
         Pos = Camera.main.ScreenToWorldPoint(Pos);
@@ -66,6 +68,7 @@ public class SpawnScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+        desEnemyCnt = (float)enemyMin + (Mathf.Pow(Time.timeSinceLevelLoad, curvature) * scale);
         int desEnemyNo = enemyMin + (int)(Mathf.Pow(Time.timeSinceLevelLoad, curvature) * scale);
  
         if(track < desEnemyNo)
@@ -73,4 +76,13 @@ public class SpawnScript : MonoBehaviour {
             SpawnEnemy();
         }
 	}
+
+    public void delayedRespawn() {
+
+        StartCoroutine( _delayedRespawn() );
+    }
+    IEnumerator _delayedRespawn() {
+        yield return new WaitForSeconds(0.7f);
+        track--;
+    }
 }

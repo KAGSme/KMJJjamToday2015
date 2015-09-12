@@ -95,4 +95,13 @@ public class Enemy : MonoBehaviour {
         
         p.y += Vel*Time.deltaTime; Trnsfrm.position = p;
 	}
+
+    void OnDestroy() {
+
+        SpawnScript.spawnthingy.delayedRespawn();
+    }
+
+
+
+
 }
