@@ -63,7 +63,7 @@ public class Enemy : MonoBehaviour {
                 var md = (Timer - (ChargeTime - Accel *0.7f))/(Accel *0.7f);
                 if( md < 0.0f ) {
                     md = Vel = 0;
-                    chargeFireShape.GetComponent<SpriteRenderer>().color = Color.Lerp( Color.white, Color.clear, Mathf.Pow( Timer /(ChargeTime - Accel), 2.5f )  );
+                    chargeFireShape.GetComponent<SpriteRenderer>().color = Color.Lerp( Color.clear, Color.white, Mathf.Pow( 1.0f - Timer /(ChargeTime - Accel), 2.5f )  );
                 } else
                     Vel = Mathf.Lerp( 0, DesVel, md );
                 if((Timer -= Time.deltaTime) < 0.0f) {
