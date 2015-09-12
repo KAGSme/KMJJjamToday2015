@@ -17,4 +17,6 @@ public class Blackhole : MonoBehaviour {
         var force = Mathf.Clamp(maxForce / direction.magnitude, 10, maxForce);
         player.AddRelativeForce(direction.normalized * force);
 	}
-}
+}   
+
+// Andrew was in this code, you have to add me to the credits of the game, i take 10% royalties
