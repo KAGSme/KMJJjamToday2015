@@ -56,16 +56,19 @@ public class Enemy : MonoBehaviour {
                 || ( (p.y > bounds && Vel > 0) ) )  {
                     Stt = State.ChargeFire;
                     Timer = ChargeTime;
-                   // DesVel = - DesVel;
+                    chargeFireShape.GetComponent<SpriteRenderer>().enabled = true;
+  
                 }
                 break;
             case State.ChargeFire:
                 var md = (Timer - (ChargeTime - Accel *0.7f))/(Accel *0.7f);
                 if( md < 0.0f ) {
-                    md = Vel = 0;
-                    chargeFireShape.GetComponent<SpriteRenderer>().color = Color.Lerp( Color.white, Color.clear, Mathf.Pow( Timer /(ChargeTime - Accel), 2.5f )  );
-                } else
+                    md = Vel = 0;                    
+                } else { 
                     Vel = Mathf.Lerp( 0, DesVel, md );
+                }
+                chargeFireShape.GetComponent<SpriteRenderer>().color = Color.Lerp( Color.clear, Color.white,Mathf.Clamp01( Mathf.Pow( 1.1f - Timer /(ChargeTime), 2.5f ) ) );
+
                 if((Timer -= Time.deltaTime) < 0.0f) {
                     if (Camera.main.WorldToScreenPoint(transform.position).x < Screen.width / 2)
                     {
@@ -77,6 +80,7 @@ public class Enemy : MonoBehaviour {
                         var laser = (GameObject)Instantiate(laserPrefab, transform.position, Quaternion.Euler(0, 0, 90));
                         laser.GetComponent<Laser>().angle = Vector2.left;
                     }
+                    chargeFireShape.GetComponent<SpriteRenderer>().enabled = false;
                     Stt = State.Accel;
                     Timer = Accel;
                     DesVel = -DesVel;

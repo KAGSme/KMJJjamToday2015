@@ -7,30 +7,55 @@ public class SpawnScript : MonoBehaviour {
     public float yoffset = 0.03f;
     public float width = 0.3f;
     public float height = 0.3f;
+    public float radius = 0.5f;
     public GameObject EnemyPrefab;
+    public GameObject AmmoPrefab;
    // public int enemyMax = 6;
     public int enemyMin = 4;
     public float curve = 0.1f;
     public float curvature = 0.5f;
     public float scale = 0.1f;
-
     public float track = 0;
     public float desEnemyCnt;
+    public float minTime = 2;
+    public float maxTime = 4;
    // float enemyNum;
     bool left = true;
     float rand;
     public static SpawnScript spawnthingy;
+    float ammoTimer;
+
+    public AudioClip Musick, Kick;
+    float Beat = 0.851f;
+    float EnDelay = -0.10f;
+    float NextKick;
+    int BeatI =0;
+
+    AudioSource[] Sauces = new AudioSource[3];
+    int SauceI = 0;
 
 	// Use this for initializatio
 	void Start () {
         spawnthingy = this;
         //enemyNum = Random.Range(enemyMin, enemyMax);
-	
+
+
+        for(int i = 3;i-- >0;) { 
+            var src = Sauces[i] = gameObject.AddComponent<AudioSource>();
+            src.clip = i==2? Musick : Kick;
+        }
+        float delay = 0.75f;
+        NextKick =delay +Beat *2;
+        Sauces[1].PlayScheduled( delay );
+        Invoke( "SpawnEnemy", delay+ EnDelay );
+        BeatI++;
 	}
 
-    void SpawnEnemy(float difficultyAdd )
-    {
 
+
+    void SpawnEnemy( )
+    {
+        float difficultyAdd = (Mathf.Pow(Time.timeSinceLevelLoad, curvature) * scale);
         var Pos = Vector3.zero;
 
         if (left)
@@ -63,7 +88,7 @@ public class SpawnScript : MonoBehaviour {
         track += 1;
         Debug.Log("hellllllo");
 
-
+        difficultyAdd += 0.2f;
         difficultyAdd*= 0.5f + Random.value;
         var en = go.GetComponent<Enemy>();
         var sm = difficultyAdd *0.1;
@@ -75,9 +100,16 @@ public class SpawnScript : MonoBehaviour {
         Debug.Log("en speed "+ en.Speed+"  ChargeTime "+ en.ChargeTime );
         en.WanderMn /= en.Speed;
     }
+
+    void SpawnAmmo()
+    {
+       Instantiate(AmmoPrefab, (Vector3)Random.insideUnitCircle * radius, Quaternion.identity);
+    }
 	
 	// Update is called once per frame
 	void Update () {
+
+        /*
         var dm =  (Mathf.Pow(Time.timeSinceLevelLoad, curvature) * scale);
         desEnemyCnt = (float)enemyMin + (Mathf.Pow(Time.timeSinceLevelLoad, curvature) * scale);
         int desEnemyNo = enemyMin + (int)(Mathf.Pow(Time.timeSinceLevelLoad, curvature) * scale);
@@ -85,7 +117,25 @@ public class SpawnScript : MonoBehaviour {
         if(track < desEnemyNo)
         {
             SpawnEnemy( dm );
+        } */
+
+        if((NextKick -= Time.deltaTime) < 1 ) {
+
+            if((++BeatI) == 3) {
+                BeatI = -1;
+            } else { 
+                Sauces[SauceI=1-SauceI].PlayScheduled( NextKick );
+                Invoke( "SpawnEnemy", NextKick+EnDelay );             
+            }
+            NextKick +=Beat;
         }
+
+        if((ammoTimer -= Time.deltaTime) < 0)
+        {
+            SpawnAmmo();
+            ammoTimer = Random.Range(minTime, maxTime);
+        }
+
 	}
 
     public void delayedRespawn() {
@@ -96,4 +146,5 @@ public class SpawnScript : MonoBehaviour {
         yield return new WaitForSeconds(0.7f);
         track--;
     }
+    //yo
 }
