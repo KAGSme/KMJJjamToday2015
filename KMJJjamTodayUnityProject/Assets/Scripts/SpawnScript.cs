@@ -63,7 +63,7 @@ public class SpawnScript : MonoBehaviour {
         track += 1;
         Debug.Log("hellllllo");
 
-
+        difficultyAdd += 0.2f;
         difficultyAdd*= 0.5f + Random.value;
         var en = go.GetComponent<Enemy>();
         var sm = difficultyAdd *0.1;

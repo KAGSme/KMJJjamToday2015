@@ -62,10 +62,12 @@ public class Enemy : MonoBehaviour {
             case State.ChargeFire:
                 var md = (Timer - (ChargeTime - Accel *0.7f))/(Accel *0.7f);
                 if( md < 0.0f ) {
-                    md = Vel = 0;
-                    chargeFireShape.GetComponent<SpriteRenderer>().color = Color.Lerp( Color.clear, Color.white, Mathf.Pow( 1.0f - Timer /(ChargeTime - Accel), 2.5f )  );
-                } else
+                    md = Vel = 0;                    
+                } else { 
                     Vel = Mathf.Lerp( 0, DesVel, md );
+                }
+                chargeFireShape.GetComponent<SpriteRenderer>().color = Color.Lerp( Color.clear, Color.white,Mathf.Clamp01( Mathf.Pow( 1.1f - Timer /(ChargeTime), 2.5f ) ) );
+
                 if((Timer -= Time.deltaTime) < 0.0f) {
                     if (Camera.main.WorldToScreenPoint(transform.position).x < Screen.width / 2)
                     {
