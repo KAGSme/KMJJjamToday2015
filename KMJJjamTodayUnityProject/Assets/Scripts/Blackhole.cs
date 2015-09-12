@@ -36,6 +36,7 @@ public class Blackhole : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
+        if( player == null ) return;
         var direction = transform.position - player.gameObject.transform.position;
         var force = Mathf.Clamp(maxForce / direction.magnitude, 10, maxForce);
         player.AddRelativeForce(direction.normalized * force);
