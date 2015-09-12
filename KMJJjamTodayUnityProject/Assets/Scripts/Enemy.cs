@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour {
     public float Speed = 4, Accel = 0.5f, ChargeTime = 0.75f;
     public float WanderMn = 2;
     public GameObject laserPrefab;
+    public GameObject chargeFireShape;
 
 	float Vel = 0, DesVel;
     public float Timer;
@@ -62,7 +63,7 @@ public class Enemy : MonoBehaviour {
                 var md = (Timer - (ChargeTime - Accel *0.7f))/(Accel *0.7f);
                 if( md < 0.0f ) {
                     md = Vel = 0;
-                    GetComponent<MeshRenderer>().material.color = Color.Lerp( Color.red, Color.white, Mathf.Pow( Timer /(ChargeTime - Accel), 2.5f )  );
+                    chargeFireShape.GetComponent<SpriteRenderer>().color = Color.Lerp( Color.white, Color.clear, Mathf.Pow( Timer /(ChargeTime - Accel), 2.5f )  );
                 } else
                     Vel = Mathf.Lerp( 0, DesVel, md );
                 if((Timer -= Time.deltaTime) < 0.0f) {
@@ -83,7 +84,7 @@ public class Enemy : MonoBehaviour {
                 break;
             case State.Accel:
                 Vel = Mathf.Lerp( DesVel, 0, Timer/Accel );
-                GetComponent<MeshRenderer>().material.color = Color.Lerp( Color.white, Color.red, Timer/Accel );
+                chargeFireShape.GetComponent<SpriteRenderer>().color = Color.Lerp( Color.clear, Color.white, Timer/Accel );
     
                 if((Timer -= Time.deltaTime) < 0.0f) {
                     
@@ -95,4 +96,13 @@ public class Enemy : MonoBehaviour {
         
         p.y += Vel*Time.deltaTime; Trnsfrm.position = p;
 	}
+
+    void OnDestroy() {
+
+        SpawnScript.spawnthingy.delayedRespawn();
+    }
+
+
+
+
 }
