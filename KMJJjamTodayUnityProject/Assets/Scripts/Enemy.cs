@@ -56,7 +56,8 @@ public class Enemy : MonoBehaviour {
                 || ( (p.y > bounds && Vel > 0) ) )  {
                     Stt = State.ChargeFire;
                     Timer = ChargeTime;
-                   // DesVel = - DesVel;
+                    chargeFireShape.GetComponent<SpriteRenderer>().enabled = true;
+  
                 }
                 break;
             case State.ChargeFire:
@@ -79,6 +80,7 @@ public class Enemy : MonoBehaviour {
                         var laser = (GameObject)Instantiate(laserPrefab, transform.position, Quaternion.Euler(0, 0, 90));
                         laser.GetComponent<Laser>().angle = Vector2.left;
                     }
+                    chargeFireShape.GetComponent<SpriteRenderer>().enabled = false;
                     Stt = State.Accel;
                     Timer = Accel;
                     DesVel = -DesVel;

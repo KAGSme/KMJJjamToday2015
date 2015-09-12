@@ -43,4 +43,4 @@ public class Blackhole : MonoBehaviour {
 	}
 }   
 
-// Andrew was in this code, you have to add me to the credits of the game, i take 10% royalties
+// Andrew was in this code, you have to add me to the credits of the game, i take 10% royalties in the form of sexual services
