@@ -8,7 +8,7 @@ public class SpawnScript : MonoBehaviour {
     public float width = 0.3f;
     public float height = 0.3f;
     public GameObject EnemyPrefab;
-    public int enemyMax = 6;
+   // public int enemyMax = 6;
     public int enemyMin = 4;
     public float curve = 0.1f;
     public float curvature = 0.5f;
@@ -28,7 +28,7 @@ public class SpawnScript : MonoBehaviour {
 	
 	}
 
-    void SpawnEnemy()
+    void SpawnEnemy(float difficultyAdd )
     {
 
         var Pos = Vector3.zero;
@@ -59,21 +59,32 @@ public class SpawnScript : MonoBehaviour {
         Pos = Camera.main.ScreenToWorldPoint(Pos);
         Pos.z = 0.0f;
 
-        Instantiate(EnemyPrefab, Pos, Quaternion.identity);
+        var go = Instantiate(EnemyPrefab, Pos, Quaternion.identity) as GameObject;
         track += 1;
         Debug.Log("hellllllo");
 
+
+        difficultyAdd*= 0.5f + Random.value;
+        var en = go.GetComponent<Enemy>();
+        var sm = difficultyAdd *0.1;
+        en.WanderMn *= en.Speed;
+        en.Speed *= (1.0f+ difficultyAdd*0.1f );
+        var md = 1.0f + difficultyAdd *0.06f;
+        en.ChargeTime /= md;
+        en.Accel /= md;
+        Debug.Log("en speed "+ en.Speed+"  ChargeTime "+ en.ChargeTime );
+        en.WanderMn /= en.Speed;
     }
 	
 	// Update is called once per frame
 	void Update () {
-
+        var dm =  (Mathf.Pow(Time.timeSinceLevelLoad, curvature) * scale);
         desEnemyCnt = (float)enemyMin + (Mathf.Pow(Time.timeSinceLevelLoad, curvature) * scale);
         int desEnemyNo = enemyMin + (int)(Mathf.Pow(Time.timeSinceLevelLoad, curvature) * scale);
  
         if(track < desEnemyNo)
         {
-            SpawnEnemy();
+            SpawnEnemy( dm );
         }
 	}
 
