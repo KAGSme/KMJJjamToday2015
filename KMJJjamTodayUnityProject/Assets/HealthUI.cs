@@ -13,6 +13,6 @@ public class HealthUI : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        healthBar.fillAmount = PlayerData.pd.maxHealth / PlayerData.pd.Health;
+        healthBar.fillAmount = (float)PlayerData.pd.Health / (float)PlayerData.pd.maxHealth;
 	}
 }
