@@ -6,6 +6,7 @@ public class Laser : MonoBehaviour {
     public LayerMask laserHit;
     float distance = 0;
     public float Speed = 10;
+    public int enemyKillPoints = 100;
     [HideInInspector]
     public Vector2 angle;
 
@@ -19,8 +20,14 @@ public class Laser : MonoBehaviour {
         var ray = Physics2D.Raycast(transform.position, angle, distance += Speed * Time.deltaTime, laserHit);
         if (ray.collider != null)
         {
-            Debug.Log("Hit");
-            Destroy(ray.collider.gameObject);
+            if (ray.collider.gameObject.tag == "Player")
+            {
+                PlayerData.pd.HealthChange(-1);
+            }
+            else
+            {
+                Debug.Log("Hit");
+                Destroy(ray.collider.gameObject);
+            } 
         }
-	}
 }

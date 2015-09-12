@@ -9,21 +9,36 @@ public class PlayerData : MonoBehaviour {
     int score;
     int finalScore;
 
-    public void healthChange(int value)
+    public int Score{
+        get { return score; }
+        set { score = value; }
+    }
+
+    public void HealthChange(int value)
     {
         health += value; 
     }
 
     void Start()
     {
-        DontDestroyOnLoad(this);
-    }
+        if (pd == null) {
+            pd = this;
+            DontDestroyOnLoad(this); 
+        }
+        else Destroy(this);
 
+        score = 0;
+        health = maxHealth;
+    }
+    float timer;
     void Update()
     {
+        timer += Time.deltaTime;
+        score = (int)timer * 10;
         if (health <= 0)
         {
-            Application.LoadLevel("");
+            finalScore = score;
+            Application.LoadLevel("MainMenu");
         }
     }
 }
