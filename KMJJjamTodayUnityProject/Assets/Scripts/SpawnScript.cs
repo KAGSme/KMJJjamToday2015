@@ -45,7 +45,7 @@ public class SpawnScript : MonoBehaviour {
             src.clip = i==2? Musick : Kick;
         }
         float delay = 0.75f;
-        NextKick =delay +Beat *2;
+        NextKick =delay +Beat ;
         Sauces[1].PlayScheduled( delay );
         Invoke( "SpawnEnemy", delay+ EnDelay );
         BeatI++;
@@ -123,7 +123,7 @@ public class SpawnScript : MonoBehaviour {
 
             if((++BeatI) > 4) {
                // BeatI = -1;
-                if( BeatI >= 15 ) Beat =0;
+                if( BeatI >= 15 ) BeatI =0;
             } else { 
                 Sauces[SauceI=1-SauceI].PlayScheduled( NextKick );
                 Invoke( "SpawnEnemy", NextKick+EnDelay );             
