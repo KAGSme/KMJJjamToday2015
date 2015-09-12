@@ -16,7 +16,8 @@ public class Laser : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+    void Update()
+    {
         var ray = Physics2D.Raycast(transform.position, angle, distance += Speed * Time.deltaTime, laserHit);
         if (ray.collider != null)
         {
@@ -28,6 +29,7 @@ public class Laser : MonoBehaviour {
             {
                 Debug.Log("Hit");
                 Destroy(ray.collider.gameObject);
-            } 
+            }
         }
+    }
 }

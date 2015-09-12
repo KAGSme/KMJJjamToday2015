@@ -14,6 +14,12 @@ public class PlayerData : MonoBehaviour {
         set { score = value; }
     }
 
+    public int Health
+    {
+        get { return health; }
+        set { health = value; }
+    }
+
     public void HealthChange(int value)
     {
         health += value; 
