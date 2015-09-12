@@ -26,7 +26,7 @@ public class Blackhole : MonoBehaviour {
             if (currentDestination != null)
             {
                 transform.position = Vector3.Slerp(transform.position, currentDestination.position, Time.deltaTime * speed);
-                if (Mathf.Abs(Vector3.Magnitude(currentDestination.position - transform.position)) < 4.0f)
+                if (Mathf.Abs(Vector3.Magnitude(currentDestination.position - transform.position)) < 1.0f)
                 {
                     currentDestination = travelPoints[Random.Range(0, travelPoints.Length)];
                 }

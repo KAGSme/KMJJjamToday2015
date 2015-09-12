@@ -7,6 +7,7 @@ public class Enemy : MonoBehaviour {
     public float Limit = 0.1f;
     public float Speed = 4, Accel = 0.5f, ChargeTime = 0.75f;
     public float WanderMn = 2;
+    public GameObject laserPrefab;
 
 	float Vel = 0, DesVel;
     public float Timer;
@@ -64,8 +65,17 @@ public class Enemy : MonoBehaviour {
                     GetComponent<MeshRenderer>().material.color = Color.Lerp( Color.red, Color.white, Mathf.Pow( Timer /(ChargeTime - Accel), 2.5f )  );
                 } else
                     Vel = Mathf.Lerp( 0, DesVel, md );
-                
                 if((Timer -= Time.deltaTime) < 0.0f) {
+                    if (Camera.main.WorldToScreenPoint(transform.position).x < Screen.width / 2)
+                    {
+                        var laser = (GameObject)Instantiate(laserPrefab, transform.position, Quaternion.Euler(0, 0, 270));
+                        laser.GetComponent<Laser>().angle = Vector2.right;
+                    }
+                    else
+                    {
+                        var laser = (GameObject)Instantiate(laserPrefab, transform.position, Quaternion.Euler(0, 0, 90));
+                        laser.GetComponent<Laser>().angle = Vector2.left;
+                    }
                     Stt = State.Accel;
                     Timer = Accel;
                     DesVel = -DesVel;
