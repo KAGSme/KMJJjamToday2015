@@ -25,16 +25,37 @@ public class SpawnScript : MonoBehaviour {
     public static SpawnScript spawnthingy;
     float ammoTimer;
 
+    public AudioClip Musick, Kick;
+    float Beat = 0.851f;
+    float EnDelay = -0.10f;
+    float NextKick;
+    int BeatI =0;
+
+    AudioSource[] Sauces = new AudioSource[3];
+    int SauceI = 0;
+
 	// Use this for initializatio
 	void Start () {
         spawnthingy = this;
         //enemyNum = Random.Range(enemyMin, enemyMax);
-	
+
+
+        for(int i = 3;i-- >0;) { 
+            var src = Sauces[i] = gameObject.AddComponent<AudioSource>();
+            src.clip = i==2? Musick : Kick;
+        }
+        float delay = 0.75f;
+        NextKick =delay +Beat *2;
+        Sauces[1].PlayScheduled( delay );
+        Invoke( "SpawnEnemy", delay+ EnDelay );
+        BeatI++;
 	}
 
-    void SpawnEnemy(float difficultyAdd )
-    {
 
+
+    void SpawnEnemy( )
+    {
+        float difficultyAdd = (Mathf.Pow(Time.timeSinceLevelLoad, curvature) * scale);
         var Pos = Vector3.zero;
 
         if (left)
@@ -88,7 +109,7 @@ public class SpawnScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-
+        /*
         var dm =  (Mathf.Pow(Time.timeSinceLevelLoad, curvature) * scale);
         desEnemyCnt = (float)enemyMin + (Mathf.Pow(Time.timeSinceLevelLoad, curvature) * scale);
         int desEnemyNo = enemyMin + (int)(Mathf.Pow(Time.timeSinceLevelLoad, curvature) * scale);
@@ -96,9 +117,18 @@ public class SpawnScript : MonoBehaviour {
         if(track < desEnemyNo)
         {
             SpawnEnemy( dm );
-        }
+        } */
 
-        
+        if((NextKick -= Time.deltaTime) < 1 ) {
+
+            if((++BeatI) == 3) {
+                BeatI = -1;
+            } else { 
+                Sauces[SauceI=1-SauceI].PlayScheduled( NextKick );
+                Invoke( "SpawnEnemy", NextKick+EnDelay );             
+            }
+            NextKick +=Beat;
+        }
 
         if((ammoTimer -= Time.deltaTime) < 0)
         {

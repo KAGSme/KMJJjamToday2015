@@ -23,7 +23,7 @@ public class Laser : MonoBehaviour {
         {
             if (ray.collider.gameObject.tag == "Player")
             {
-                PlayerData.pd.HealthChange(-1);
+                if( PlayerData.pd != null ) PlayerData.pd.HealthChange(-1);
             }
             else
             {
