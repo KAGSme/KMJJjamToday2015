@@ -18,6 +18,7 @@ public class SpawnScript : MonoBehaviour {
     bool left = true;
     float rand;
     static SpawnScript spawnthingy;
+    static Enemy enemy;
 
 	// Use this for initializatio
 	void Start () {
