@@ -8,6 +8,8 @@ public class PlayerData : MonoBehaviour {
     int health;
     int score;
     int finalScore;
+    public bool isInvincible = false;
+    float iTimer = 1;
 
     public int Score{
         get { return score; }
@@ -22,7 +24,11 @@ public class PlayerData : MonoBehaviour {
 
     public void HealthChange(int value)
     {
-        health += value; 
+        if (!isInvincible)
+        {
+            health += value;
+            isInvincible = true;
+        }
     }
 
     void Start()
@@ -45,6 +51,15 @@ public class PlayerData : MonoBehaviour {
         {
             finalScore = score;
             Application.LoadLevel("MainMenu");
+        }
+
+        if (isInvincible)
+        {
+            if ((iTimer -= Time.deltaTime) <= 0)
+            {
+                isInvincible = false;
+                iTimer = 1;
+            }
         }
     }
 }
