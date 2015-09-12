@@ -7,7 +7,7 @@ public class SpawnScript : MonoBehaviour {
     public float yoffset = 0.03f;
     public float width = 0.3f;
     public float height = 0.3f;
-    public float radius = 20.0f;
+    public float radius = 0.5f;
     public GameObject EnemyPrefab;
     public GameObject AmmoPrefab;
    // public int enemyMax = 6;
@@ -17,10 +17,13 @@ public class SpawnScript : MonoBehaviour {
     public float scale = 0.1f;
     public float track = 0;
     public float desEnemyCnt;
+    public float minTime = 2;
+    public float maxTime = 4;
    // float enemyNum;
     bool left = true;
     float rand;
     public static SpawnScript spawnthingy;
+    float ammoTimer;
 
 	// Use this for initializatio
 	void Start () {
@@ -85,6 +88,7 @@ public class SpawnScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+
         var dm =  (Mathf.Pow(Time.timeSinceLevelLoad, curvature) * scale);
         desEnemyCnt = (float)enemyMin + (Mathf.Pow(Time.timeSinceLevelLoad, curvature) * scale);
         int desEnemyNo = enemyMin + (int)(Mathf.Pow(Time.timeSinceLevelLoad, curvature) * scale);
@@ -94,7 +98,14 @@ public class SpawnScript : MonoBehaviour {
             SpawnEnemy( dm );
         }
 
-        SpawnAmmo();
+        
+
+        if((ammoTimer -= Time.deltaTime) < 0)
+        {
+            SpawnAmmo();
+            ammoTimer = Random.Range(minTime, maxTime);
+        }
+
 	}
 
     public void delayedRespawn() {
