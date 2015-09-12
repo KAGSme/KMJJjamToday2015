@@ -123,7 +123,7 @@ public class SpawnScript : MonoBehaviour {
 
             if((++BeatI) > 4) {
                // BeatI = -1;
-                if( Beat >= 15 ) Beat =0;
+                if( BeatI >= 15 ) Beat =0;
             } else { 
                 Sauces[SauceI=1-SauceI].PlayScheduled( NextKick );
                 Invoke( "SpawnEnemy", NextKick+EnDelay );             
