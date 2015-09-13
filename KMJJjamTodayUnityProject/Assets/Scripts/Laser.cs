@@ -30,8 +30,9 @@ public class Laser : MonoBehaviour {
             }
             else
             {
-                Debug.Log("Hit");
+                Debug.Log("Hit " + enemyKillPoints);
                 Destroy(ray.collider.gameObject);
+                PlayerData.pd.AScore += enemyKillPoints;
             }
         }
     }
