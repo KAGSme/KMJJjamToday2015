@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Laser : MonoBehaviour {
 
+    public AudioClip hit;
     public LayerMask laserHit;
     float distance = 0;
     public float Speed = 10;
@@ -31,6 +32,7 @@ public class Laser : MonoBehaviour {
                 if( PlayerData.pd != null ){
                     PlayerData.pd.HealthChange(-1);
                     Destroy(this);
+                    lasor.PlayOneShot(hit);
                 }
             }
             else
