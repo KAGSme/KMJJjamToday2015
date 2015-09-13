@@ -97,14 +97,11 @@ public class Enemy : MonoBehaviour {
                 Vel = Mathf.Lerp( DesVel, 0, Timer/Accel );
                 chargeFireShape.GetComponent<SpriteRenderer>().color = Color.Lerp( Color.clear, Color.white, Timer/Accel );
     
-                if((Timer -= Time.deltaTime) < 0.0f) {
-                    
+                if((Timer -= Time.deltaTime) < 0.0f) {                  
                     wander();
                 }
                 break;
-        }
-
-        
+        }      
         p.y += Vel*Time.deltaTime; Trnsfrm.position = p;
 	}
 
