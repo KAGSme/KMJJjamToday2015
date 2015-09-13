@@ -38,7 +38,7 @@ public class CharAiming : MonoBehaviour {
                 rotObject.gameObject.SetActive(true);
                 rotObject.transform.rotation = Quaternion.Euler(0,0, Mathf.Atan2(-vec.x, vec.y) * Mathf.Rad2Deg);
 
-                if (Input.GetAxis("Fire1") > 0 && isLoaded)
+                if (Input.GetButtonDown("Fire1") && isLoaded)
                 {
                     var laser = (GameObject)Instantiate(laserPrefab, transform.position, rotObject.transform.rotation );
                     laser.GetComponent<Laser>().angle = vec;

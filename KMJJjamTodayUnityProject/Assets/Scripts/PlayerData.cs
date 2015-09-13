@@ -33,21 +33,26 @@ public class PlayerData : MonoBehaviour {
         }
     }
 
+    void OnLevelWasLoaded(int Level)
+    {
+        if (Level == 1)
+        {
+            score = 0;
+            timer = 0;
+            health = maxHealth;
+
+            iParticles = GameObject.FindGameObjectWithTag("Player").GetComponent<CharController>().iParticles;
+            iParticles.SetActive(false);
+        }
+    }
+
     void Start()
     {
-        score = 0;
-        health = maxHealth;
-
         if (pd == null) {
             pd = this;
             DontDestroyOnLoad(this); 
         }
         else Destroy(this);
-        if (Application.loadedLevelName == "MainLevel")
-        {
-            iParticles = GameObject.FindGameObjectWithTag("Player").GetComponent<CharController>().iParticles;
-            iParticles.SetActive(false);
-        }
     }
     float timer;
     void Update()
