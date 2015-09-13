@@ -7,5 +7,7 @@ public class AudioSettingCB : MonoBehaviour {
     {
          AudioListener.volume = valueChange; 
     }
-
+    void Start() {
+        GetComponent<UnityEngine.UI.Slider>().value = AudioListener.volume;
+    }
 }
