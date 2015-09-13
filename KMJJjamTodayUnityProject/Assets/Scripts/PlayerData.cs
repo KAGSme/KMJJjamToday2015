@@ -7,6 +7,7 @@ public class PlayerData : MonoBehaviour {
     public static PlayerData pd;
     public int maxHealth = 3;
     public float difficulty;
+    public string[] difficultyNames;
 
     public float DiffC1 = 0.5f;
     public float DiffC2 = 2.0f;
@@ -25,6 +26,8 @@ public class PlayerData : MonoBehaviour {
 
     int health;
     int score;
+    int aScore;
+    int tScore;
     int finalScore;
     public bool isInvincible = false;
     float iTimer = 1;
@@ -38,6 +41,12 @@ public class PlayerData : MonoBehaviour {
     public int Score{
         get { return score; }
         set { score = value; }
+    }
+
+    public int AScore
+    {
+        get { return aScore; }
+        set { aScore = value; }
     }
 
     public int Health
@@ -62,12 +71,13 @@ public class PlayerData : MonoBehaviour {
         if (Level == 1)
         {
             score = 0;
+            tScore = 0;
+            aScore = 0;
             timer = 0;
             health = maxHealth;
             
             iParticles = GameObject.FindGameObjectWithTag("Player").GetComponent<CharController>().iParticles;
             iParticles.SetActive(false);
-
 
             calcDiffMod();
         } else  if(Level == 0) { //jim -- reference broken on return to scene
@@ -102,7 +112,8 @@ public class PlayerData : MonoBehaviour {
         if (Application.loadedLevelName == "MainLevel")
         {
             timer += Time.deltaTime;
-            score = (int)timer * 10;
+            tScore = (int)timer * 10;
+            score = aScore + tScore;
             if (health <= 0)
             {
                 finalScore = score;
