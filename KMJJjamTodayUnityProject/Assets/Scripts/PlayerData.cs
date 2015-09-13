@@ -106,7 +106,7 @@ public class PlayerData : MonoBehaviour {
             if (health <= 0)
             {
                 finalScore = score;
-                Application.LoadLevel("Menu 3D");
+                Application.LoadLevel("EndScene");
             }
 
             if (isInvincible)
