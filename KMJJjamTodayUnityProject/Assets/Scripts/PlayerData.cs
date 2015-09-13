@@ -35,6 +35,9 @@ public class PlayerData : MonoBehaviour {
 
     void Start()
     {
+        score = 0;
+        health = maxHealth;
+
         if (pd == null) {
             pd = this;
             DontDestroyOnLoad(this); 
@@ -42,9 +45,6 @@ public class PlayerData : MonoBehaviour {
         else Destroy(this);
         if (Application.loadedLevelName == "MainLevel")
         {
-            score = 0;
-            health = maxHealth;
-
             iParticles = GameObject.FindGameObjectWithTag("Player").GetComponent<CharController>().iParticles;
             iParticles.SetActive(false);
         }
