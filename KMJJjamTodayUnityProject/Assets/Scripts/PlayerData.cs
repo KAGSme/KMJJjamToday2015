@@ -10,6 +10,7 @@ public class PlayerData : MonoBehaviour {
     int finalScore;
     public bool isInvincible = false;
     float iTimer = 1;
+    GameObject iParticles;
 
     public int Score{
         get { return score; }
@@ -26,6 +27,7 @@ public class PlayerData : MonoBehaviour {
     {
         if (!isInvincible)
         {
+            iParticles.SetActive(true);
             health += value;
             isInvincible = true;
         }
@@ -38,27 +40,36 @@ public class PlayerData : MonoBehaviour {
             DontDestroyOnLoad(this); 
         }
         else Destroy(this);
+        if (Application.loadedLevelName == "MainLevel")
+        {
+            score = 0;
+            health = maxHealth;
 
-        score = 0;
-        health = maxHealth;
+            iParticles = GameObject.FindGameObjectWithTag("Player").GetComponent<CharController>().iParticles;
+            iParticles.SetActive(false);
+        }
     }
     float timer;
     void Update()
     {
-        timer += Time.deltaTime;
-        score = (int)timer * 10;
-        if (health <= 0)
+        if (Application.loadedLevelName == "MainLevel")
         {
-            finalScore = score;
-            Application.LoadLevel("MainMenu");
-        }
-
-        if (isInvincible)
-        {
-            if ((iTimer -= Time.deltaTime) <= 0)
+            timer += Time.deltaTime;
+            score = (int)timer * 10;
+            if (health <= 0)
             {
-                isInvincible = false;
-                iTimer = 1;
+                finalScore = score;
+                Application.LoadLevel("Menu 3D");
+            }
+
+            if (isInvincible)
+            {
+                if ((iTimer -= Time.deltaTime) <= 0)
+                {
+                    iParticles.SetActive(false);
+                    isInvincible = false;
+                    iTimer = 1;
+                }
             }
         }
     }

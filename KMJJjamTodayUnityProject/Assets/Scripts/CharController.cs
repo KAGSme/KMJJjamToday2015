@@ -5,6 +5,7 @@ using System.Collections;
 public class CharController : MonoBehaviour {
 
     public float maxSpeed = 100;
+    public GameObject iParticles;
     Rigidbody2D rb;
 
 
