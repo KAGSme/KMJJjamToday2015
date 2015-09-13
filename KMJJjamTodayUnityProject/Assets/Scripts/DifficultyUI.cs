@@ -5,6 +5,11 @@ using UnityEngine.UI;
 public class DifficultyUI : MonoBehaviour {
 
     Text difficultyUItxt;
+
+    void Start()
+    {
+        difficultyUItxt = GetComponent<Text>();
+    }
 	
 	// Update is called once per frame
 	void Update () {
