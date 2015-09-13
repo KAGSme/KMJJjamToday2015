@@ -39,7 +39,7 @@ public class Enemy : MonoBehaviour {
         if( max > WanderMn  && Timer < WanderMn ) Timer = WanderMn;
     }
     enum State {
-        Move, ChargeFire, Accel
+        Move, Charge, Fire, Accel
     };
     State Stt;
 
@@ -54,13 +54,12 @@ public class Enemy : MonoBehaviour {
                 if( (Timer -= Time.deltaTime) < 0.0f 
                 || ( (p.y < -bounds && Vel < 0) )
                 || ( (p.y > bounds && Vel > 0) ) )  {
-                    Stt = State.ChargeFire;
+                    Stt = State.Charge;
                     Timer = ChargeTime;
                     chargeFireShape.GetComponent<SpriteRenderer>().enabled = true;
-  
                 }
                 break;
-            case State.ChargeFire:
+            case State.Charge:
                 var md = (Timer - (ChargeTime - Accel *0.7f))/(Accel *0.7f);
                 if( md < 0.0f ) {
                     md = Vel = 0;                    
@@ -70,17 +69,25 @@ public class Enemy : MonoBehaviour {
                 chargeFireShape.GetComponent<SpriteRenderer>().color = Color.Lerp( Color.clear, Color.white,Mathf.Clamp01( Mathf.Pow( 1.1f - Timer /(ChargeTime), 2.5f ) ) );
 
                 if((Timer -= Time.deltaTime) < 0.0f) {
+                    
                     if (Camera.main.WorldToScreenPoint(transform.position).x < Screen.width / 2)
                     {
                         var laser = (GameObject)Instantiate(laserPrefab, transform.position, Quaternion.Euler(0, 0, 270));
                         laser.GetComponent<Laser>().angle = Vector2.right;
+                        Timer = laser.GetComponent<DestroyByTime>().timeToDestroy;
                     }
                     else
                     {
                         var laser = (GameObject)Instantiate(laserPrefab, transform.position, Quaternion.Euler(0, 0, 90));
                         laser.GetComponent<Laser>().angle = Vector2.left;
+                        Timer = laser.GetComponent<DestroyByTime>().timeToDestroy;
                     }
                     chargeFireShape.GetComponent<SpriteRenderer>().enabled = false;
+                    Stt = State.Fire;
+                }
+                break;
+            case State.Fire:
+                if((Timer -= Time.deltaTime) < 0.0f) {
                     Stt = State.Accel;
                     Timer = Accel;
                     DesVel = -DesVel;

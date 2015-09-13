@@ -79,7 +79,7 @@ public class PlayerData : MonoBehaviour {
                 sldr.onValueChanged.AddListener( Difficulty );
                 Difficulty( sldr.value );
             }
-            Debug.Log(" am "+am+"  sldr "+sldr );
+            //Debug.Log(" am "+am+"  sldr "+sldr );
         }
         
     }
