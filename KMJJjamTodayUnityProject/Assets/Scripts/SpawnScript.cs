@@ -39,14 +39,24 @@ public class SpawnScript : MonoBehaviour {
         spawnthingy = this;
         //enemyNum = Random.Range(enemyMin, enemyMax);
 
-
         for(int i = 3;i-- >0;) { 
             var src = Sauces[i] = gameObject.AddComponent<AudioSource>();
             src.clip = i==2? Musick : Kick;
+            if( i== 2 ) {
+                src.clip = Musick;
+                src.loop = true;
+                src.volume = 0.25f;
+                src.priority = 0;
+            } else {
+                src.clip = Kick;
+                src.priority = 10;
+            }
         }
+
         float delay = 0.75f;
-        NextKick =delay +Beat ;
+        NextKick =delay +Beat;
         Sauces[1].PlayScheduled( delay );
+        Sauces[2].PlayScheduled( delay );
         Invoke( "SpawnEnemy", delay+ EnDelay );
         BeatI++;
 	}
