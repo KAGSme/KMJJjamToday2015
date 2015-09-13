@@ -102,8 +102,8 @@ public class Enemy : MonoBehaviour {
 	}
 
     void OnDestroy() {
-
-        SpawnScript.spawnthingy.delayedRespawn();
+        if( SpawnScript.spawnthingy )
+            SpawnScript.spawnthingy.delayedRespawn();
     }
 
 
