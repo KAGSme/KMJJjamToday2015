@@ -10,6 +10,7 @@ public class Laser : MonoBehaviour {
     [HideInInspector]
     public Vector2 angle;
     public AudioSource lasor;
+	public GameObject explosionObject;
 
 	// Use this for initialization
 	void Start () {
@@ -37,6 +38,7 @@ public class Laser : MonoBehaviour {
                 Debug.Log("Hit " + enemyKillPoints);
                 Destroy(ray.collider.gameObject);
                 PlayerData.pd.AScore += enemyKillPoints;
+				var explosion = (GameObject)Instantiate(explosionObject, ray.collider.gameObject.transform.position, Quaternion.identity);
             }
         }
     }
