@@ -5,12 +5,18 @@ public class PlayerData : MonoBehaviour {
 
     public static PlayerData pd;
     public int maxHealth = 3;
+    public float difficulty;
     int health;
     int score;
     int finalScore;
     public bool isInvincible = false;
     float iTimer = 1;
     GameObject iParticles;
+
+    public void Difficulty(float valueChange)
+    {
+        difficulty = valueChange;
+    }
 
     public int Score{
         get { return score; }
