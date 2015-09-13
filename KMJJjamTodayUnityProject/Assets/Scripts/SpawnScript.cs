@@ -86,7 +86,7 @@ public class SpawnScript : MonoBehaviour {
 
         var go = Instantiate(EnemyPrefab, Pos, Quaternion.identity) as GameObject;
         track += 1;
-        Debug.Log("hellllllo");
+      //  Debug.Log("hellllllo - is it me you're looking for?");
 
         difficultyAdd += 0.2f;
         difficultyAdd*= 0.5f + Random.value;
@@ -95,9 +95,21 @@ public class SpawnScript : MonoBehaviour {
         en.WanderMn *= en.Speed;
         en.Speed *= (1.0f+ difficultyAdd*0.1f );
         var md = 1.0f + difficultyAdd *0.06f;
+        float diffMod = -1;
+        if( PlayerData.pd != null ) {
+            diffMod = PlayerData.pd.DifficultyModifer;
+
+            en.Speed *= diffMod;
+            diffMod = (diffMod +1)*0.5f;
+
+            en.ChargeTime /= diffMod;
+            en.Accel /= diffMod;
+        } 
+
+
         en.ChargeTime /= md;
         en.Accel /= md;
-        Debug.Log("en speed "+ en.Speed+"  ChargeTime "+ en.ChargeTime );
+        Debug.Log("en speed "+ en.Speed+"  ChargeTime "+ en.ChargeTime + "   diffMod "+diffMod );
         en.WanderMn /= en.Speed;
     }
 

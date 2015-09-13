@@ -12,4 +12,6 @@ public class ApplicationManager : MonoBehaviour {
 		Application.Quit();
 		#endif
 	}
+
+    public UnityEngine.UI.Slider DifficultySlider;
 }

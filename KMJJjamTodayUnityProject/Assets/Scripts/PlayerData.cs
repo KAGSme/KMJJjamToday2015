@@ -1,11 +1,28 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class PlayerData : MonoBehaviour {
 
     public static PlayerData pd;
     public int maxHealth = 3;
     public float difficulty;
+
+    public float DiffC1 = 0.5f;
+    public float DiffC2 = 2.0f;
+    public float DifficultyModifer;
+
+    void calcDiffMod() {
+        System.Func<float, float, float, float, float> quad = ( float a, float b, float c, float t) => {
+            var ret   = a*(t - 0.5f)*(t - 1.0f)/((0.0f - 0.5f)*(0.0f - 1.0f));
+            ret += b*(t - 0.0f)*(t - 1.0f)/((0.5f - 0.0f)*(0.5f - 1.0f));
+            ret += c*(t - 0.0f)*(t - 0.5f)/((1.0f - 0.0f)*(1.0f - 0.5f));
+            return ret;
+        };
+
+        DifficultyModifer = quad( DiffC1, 1, DiffC2, difficulty );
+    }
+
     int health;
     int score;
     int finalScore;
@@ -41,24 +58,43 @@ public class PlayerData : MonoBehaviour {
 
     void OnLevelWasLoaded(int Level)
     {
+        if( pd != this ) return;
         if (Level == 1)
         {
             score = 0;
             timer = 0;
             health = maxHealth;
-
+            
             iParticles = GameObject.FindGameObjectWithTag("Player").GetComponent<CharController>().iParticles;
             iParticles.SetActive(false);
+
+
+            calcDiffMod();
+        } else  if(Level == 0) { //jim -- reference broken on return to scene
+           // var go = GameObject.Find( "Difficulty Slider"); UnityEngine.UI.Slider sldr;
+            var am = FindObjectOfType<ApplicationManager>(); UnityEngine.UI.Slider sldr =null;
+            if(am != null && (sldr=am.DifficultySlider) != null ) {
+                sldr.onValueChanged.RemoveAllListeners();
+                sldr.value = difficulty;
+                sldr.onValueChanged.AddListener( Difficulty );
+                Difficulty( sldr.value );
+            }
+            Debug.Log(" am "+am+"  sldr "+sldr );
         }
+        
     }
 
     void Start()
     {
+
         if (pd == null) {
             pd = this;
             DontDestroyOnLoad(this); 
         }
         else Destroy(this);
+
+
+        calcDiffMod();
     }
     float timer;
     void Update()
