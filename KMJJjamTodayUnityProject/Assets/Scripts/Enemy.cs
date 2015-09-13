@@ -9,7 +9,8 @@ public class Enemy : MonoBehaviour {
     public float WanderMn = 2;
     public GameObject laserPrefab;
     public GameObject chargeFireShape;
-    public AudioSource charge_sound;
+    public AudioSource AS;
+    public AudioClip[] chargeSounds;
 
 	float Vel = 0, DesVel;
     public float Timer;
@@ -21,7 +22,7 @@ public class Enemy : MonoBehaviour {
 
     }
     void Start() {
-        //charge_sound = GetComponent<AudioSource>();
+        AS = GetComponent<AudioSource>();
         DesVel = Vel = ( Trnsfrm.position.y > 0)? -Speed: Speed;
         wander();
     }
@@ -57,7 +58,7 @@ public class Enemy : MonoBehaviour {
                 || ( (p.y < -bounds && Vel < 0) )
                 || ( (p.y > bounds && Vel > 0) ) )  {
                     Stt = State.Charge;
-                    //charge_sound.Play();
+                    AS.PlayOneShot(chargeSounds[(int)Random.Range(0,chargeSounds.Length)]);
                     Timer = ChargeTime;
                     chargeFireShape.GetComponent<SpriteRenderer>().enabled = true;
                 }

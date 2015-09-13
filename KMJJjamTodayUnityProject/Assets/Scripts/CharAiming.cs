@@ -7,6 +7,7 @@ public class CharAiming : MonoBehaviour {
     public GameObject laserPrefab;
     public GameObject isLoadedTexture;
     public bool isLoaded = false;
+    public AudioClip pickUpSFX;
 
 	// Use this for initialization
 	void Start () {
@@ -53,6 +54,10 @@ public class CharAiming : MonoBehaviour {
     {
         if (other.gameObject.tag == "AmmoPickup")
         {
+            if (GetComponent<AudioSource>())
+            {
+                GetComponent<AudioSource>().PlayOneShot(pickUpSFX);
+            }
             Destroy(other.gameObject);
             isLoaded = true;
             isLoadedTexture.GetComponent<SpriteRenderer>().color = Color.white;

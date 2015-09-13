@@ -70,6 +70,7 @@ public class PlayerData : MonoBehaviour {
         if( pd != this ) return;
         if (Level == 1)
         {
+            isInvincible = false;
             score = 0;
             tScore = 0;
             aScore = 0;
@@ -99,7 +100,7 @@ public class PlayerData : MonoBehaviour {
 
         if (pd == null) {
             pd = this;
-            DontDestroyOnLoad(this); 
+            DontDestroyOnLoad(this.gameObject); 
         }
         else Destroy(this);
 
