@@ -9,9 +9,13 @@ public class Laser : MonoBehaviour {
     public int enemyKillPoints = 100;
     [HideInInspector]
     public Vector2 angle;
+    public AudioSource lasor;
 
 	// Use this for initialization
 	void Start () {
+
+        lasor = GetComponent<AudioSource>();
+        lasor.Play();
 	
 	}
 	
