@@ -28,7 +28,6 @@ public class PlayerData : MonoBehaviour {
     int score;
     int aScore;
     int tScore;
-    int finalScore;
     public bool isInvincible = false;
     float iTimer = 1;
     GameObject iParticles;
@@ -117,7 +116,6 @@ public class PlayerData : MonoBehaviour {
             score = aScore + tScore;
             if (health <= 0)
             {
-                finalScore = score;
                 Application.LoadLevel("EndScene");
             }
 
