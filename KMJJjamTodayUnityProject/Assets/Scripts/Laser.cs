@@ -35,7 +35,7 @@ public class Laser : MonoBehaviour {
                     lasor.PlayOneShot(hit);
                 }
             }
-            else
+            else if(ray.collider.gameObject.tag == "Enemy")
             {
                 Debug.Log("Hit " + enemyKillPoints);
                 Destroy(ray.collider.gameObject);

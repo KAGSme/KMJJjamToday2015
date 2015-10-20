@@ -8,6 +8,8 @@ public class CharAiming : MonoBehaviour {
     public GameObject isLoadedTexture;
     public bool isLoaded = false;
     public AudioClip pickUpSFX;
+    public int ammoPickupExtraScore;
+    public int HealAmount;
 
 	// Use this for initialization
 	void Start () {
@@ -57,6 +59,10 @@ public class CharAiming : MonoBehaviour {
             if (GetComponent<AudioSource>())
             {
                 GetComponent<AudioSource>().PlayOneShot(pickUpSFX);
+            }
+            if (isLoaded)
+            {
+                PlayerData.pd.AScore += 25;
             }
             Destroy(other.gameObject);
             isLoaded = true;
