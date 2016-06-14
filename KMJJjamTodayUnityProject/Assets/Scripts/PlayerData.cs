@@ -13,6 +13,8 @@ public class PlayerData : MonoBehaviour {
     public float DiffC2 = 2.0f;
     public float DifficultyModifer;
 
+    public GameObject ScoreTextPopUp;
+
     void calcDiffMod() {
         System.Func<float, float, float, float, float> quad = ( float a, float b, float c, float t) => {
             var ret   = a*(t - 0.5f)*(t - 1.0f)/((0.0f - 0.5f)*(0.0f - 1.0f));
@@ -45,7 +47,12 @@ public class PlayerData : MonoBehaviour {
     public int AScore
     {
         get { return aScore; }
-        set { aScore = value; }
+        set {
+            aScore = value;
+            GameObject stp;
+            stp = Instantiate(ScoreTextPopUp, GameObject.FindGameObjectWithTag("Player").transform.position, Quaternion.identity) as GameObject;
+            stp.GetComponentInChildren<Text>().text = value.ToString();
+        }
     }
 
     public int Health
